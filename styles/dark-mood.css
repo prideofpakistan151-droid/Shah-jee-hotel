@@ -1,0 +1,92 @@
+/* Dark Mode Specific Styles */
+.dark-theme .back-btn {
+    color: var(--text-primary);
+}
+
+.dark-theme .menu-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+
+.dark-theme .menu-card.previous-bills {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.dark-theme .stat-card {
+    background: var(--bg-card);
+}
+
+.dark-theme .quick-actions,
+.dark-theme .recent-activity,
+.dark-theme .form-container,
+.dark-theme .bill-info-bar,
+.dark-theme .input-section,
+.dark-theme .entries-log,
+.dark-theme .totals-section,
+.dark-theme .bills-controls,
+.dark-theme .bill-card,
+.dark-theme .settings-section,
+.dark-theme .analytics-section,
+.dark-theme .summary-card,
+.dark-theme .categories-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+
+.dark-theme .participant-badge {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.dark-theme .participant-badge.active {
+    background: var(--primary);
+    color: white;
+}
+
+.dark-theme .entry-item {
+    background: var(--bg-secondary);
+}
+
+.dark-theme .search-bar input {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.dark-theme .search-bar input:focus {
+    border-color: var(--primary);
+}
+
+.dark-theme .split-btn {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.dark-theme .split-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.dark-theme .theme-toggle {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.dark-theme .totals {
+    background: #1a472a !important;
+    border-left: 4px solid var(--success) !important;
+}
+
+.dark-theme .final-totals {
+    background: #5c4a1a !important;
+    border-left: 4px solid var(--warning) !important;
+}
+
+/* Smooth transitions for theme switch */
+body, .menu-card, .stat-card, input, textarea, select, .btn-secondary {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
