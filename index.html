@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Bill Manager - Ultimate</title>
+    
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="BillManager">
+    <meta name="theme-color" content="#6366F1">
+    <meta name="description" content="Advanced hostel expense tracker with analytics and multi-user support">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/home.css">
+    <link rel="stylesheet" href="styles/dark-mode.css">
+</head>
+<body class="light-theme">
+    <div class="container">
+        <!-- Header with Theme Toggle -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>💰 Hostel Bill Manager</h1>
+                    <p>Track, split & analyze expenses</p>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Quick Stats Dashboard -->
+        <div class="dashboard">
+            <div class="stat-cards">
+                <div class="stat-card primary">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="totalBills">0</div>
+                        <div class="stat-label">Total Bills</div>
+                    </div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="totalAmount">₹0</div>
+                        <div class="stat-label">Total Amount</div>
+                    </div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="activeUsers">5</div>
+                        <div class="stat-label">Roommates</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Navigation Grid -->
+        <div class="main-menu">
+            <div class="menu-card new-bill" onclick="navigateTo('new-bill.html')">
+                <div class="card-icon">➕</div>
+                <h3>New Bill</h3>
+                <p>Create expense entry</p>
+                <div class="card-badge">Quick</div>
+            </div>
+
+            <div class="menu-card previous-bills" onclick="navigateTo('previous-bills.html')">
+                <div class="card-icon">📋</div>
+                <h3>Bill History</h3>
+                <p>View all calculations</p>
+                <div class="card-badge" id="recentBillsBadge">0 new</div>
+            </div>
+
+            <div class="menu-card analytics" onclick="navigateTo('analytics.html')">
+                <div class="card-icon">📈</div>
+                <h3>Analytics</h3>
+                <p>Spending insights</p>
+                <div class="card-badge">New</div>
+            </div>
+
+            <div class="menu-card categories" onclick="navigateTo('categories.html')">
+                <div class="card-icon">🏷️</div>
+                <h3>Categories</h3>
+                <p>Manage expenses</p>
+            </div>
+
+            <div class="menu-card settings" onclick="navigateTo('settings.html')">
+                <div class="card-icon">⚙️</div>
+                <h3>Settings</h3>
+                <p>App preferences</p>
+            </div>
+
+            <div class="menu-card export" onclick="exportAllData()">
+                <div class="card-icon">📤</div>
+                <h3>Export Data</h3>
+                <p>Backup & share</p>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="action-buttons">
+                <button class="btn-secondary" onclick="navigateTo('calculator.html')">
+                    <span>🧮</span> Quick Calculator
+                </button>
+                <button class="btn-secondary" onclick="showSettlement()">
+                    <span>💸</span> Check Settlements
+                </button>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+            <h3>Recent Activity</h3>
+            <div id="recentActivityList" class="activity-list">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Service Worker Registration -->
+    <script src="js/app.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/theme.js"></script>
+    <script>
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+            loadRecentActivity();
+            initServiceWorker();
+        });
+
+        function loadDashboardData() {
+            const bills = getBills();
+            const totalAmount = bills.reduce((sum, bill) => sum + (bill.totalAmount || 0), 0);
+            
+            document.getElementById('totalBills').textContent = bills.length;
+            document.getElementById('totalAmount').textContent = `₹${totalAmount.toFixed(2)}`;
+            
+            // Update recent bills badge
+            const recentBills = bills.filter(bill => 
+                new Date(bill.createdAt) > new Date(Date.now() - 24 * 60 * 60 * 1000)
+            );
+            document.getElementById('recentBillsBadge').textContent = `${recentBills.length} new`;
+        }
+
+        function loadRecentActivity() {
+            const bills = getBills().slice(0, 3); // Last 3 bills
+            const activityList = document.getElementById('recentActivityList');
+            
+            if (bills.length === 0) {
+                activityList.innerHTML = '<div class="empty-activity">No recent activity</div>';
+                return;
+            }
+            
+            activityList.innerHTML = bills.map(bill => `
+                <div class="activity-item">
+                    <div class="activity-icon">💰</div>
+                    <div class="activity-details">
+                        <div class="activity-title">${bill.name}</div>
+                        <div class="activity-meta">₹${bill.totalAmount?.toFixed(2) || '0.00'} • ${new Date(bill.date).toLocaleDateString()}</div>
+                    </div>
+                    <div class="activity-amount">₹${bill.totalAmount?.toFixed(2) || '0.00'}</div>
+                </div>
+            `).join('');
+        }
+
+        function initServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/hostel-bill-manager/service-worker.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            }
+        }
+
+        function exportAllData() {
+            const data = {
+                bills: getBills(),
+                settings: getSettings(),
+                exportDate: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `hostel-bills-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showNotification('Data exported successfully!', 'success');
+        }
+
+        function showSettlement() {
+            const bills = getBills();
+            if (bills.length === 0) {
+                showNotification('No bills to calculate settlements', 'warning');
+                return;
+            }
+            // Simple settlement calculation
+            const totals = calculateSettlements(bills);
+            let message = 'Settlement Summary:\n\n';
+            for (const [person, amount] of Object.entries(totals)) {
+                message += `${nameMap[person] || person}: ₹${amount.toFixed(2)}\n`;
+            }
+            alert(message);
+        }
+    </script>
+</body>
+</html>
