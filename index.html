@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hostel Bill Manager - Ultimate</title>
+    <title>Hostel Bill Manager Pro</title>
     
-    <!-- PWA Configuration -->
+    <!-- Enhanced PWA Icons -->
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-128x128.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-96x96.png">
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192x192.png">
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#6366F1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="BillManager">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#6366F1">
-    <meta name="description" content="Advanced hostel expense tracker with analytics and multi-user support">
     
     <!-- Styles -->
     <link rel="stylesheet" href="styles/common.css">
@@ -129,12 +134,11 @@
     <!-- Notification System -->
     <div class="notification" id="notification"></div>
 
-    <!-- Service Worker Registration -->
+    <!-- Scripts -->
     <script src="js/app.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/theme.js"></script>
     <script>
-        // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
             loadDashboardData();
             loadRecentActivity();
@@ -148,7 +152,6 @@
             document.getElementById('totalBills').textContent = bills.length;
             document.getElementById('totalAmount').textContent = `₹${totalAmount.toFixed(2)}`;
             
-            // Update recent bills badge
             const recentBills = bills.filter(bill => 
                 new Date(bill.createdAt) > new Date(Date.now() - 24 * 60 * 60 * 1000)
             );
@@ -156,7 +159,7 @@
         }
 
         function loadRecentActivity() {
-            const bills = getBills().slice(0, 3); // Last 3 bills
+            const bills = getBills().slice(0, 3);
             const activityList = document.getElementById('recentActivityList');
             
             if (bills.length === 0) {
@@ -208,11 +211,10 @@
                 showNotification('No bills to calculate settlements', 'warning');
                 return;
             }
-            // Simple settlement calculation
             const totals = calculateSettlements(bills);
             let message = 'Settlement Summary:\n\n';
             for (const [person, amount] of Object.entries(totals)) {
-                message += `${nameMap[person] || person}: ₹${amount.toFixed(2)}\n`;
+                message += `${nameMap[person]?.name || person}: ₹${amount.toFixed(2)}\n`;
             }
             alert(message);
         }
