@@ -1,0 +1,290 @@
+/* Calculator Specific Styles */
+.bill-info-bar {
+    background: var(--bg-card);
+    padding: 20px 24px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.bill-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.calculator-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.input-section, .entries-log, .totals-section {
+    background: var(--bg-card);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+}
+
+/* Participant Badges */
+.participant-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.participant-badge {
+    padding: 12px 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.participant-badge.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary-dark);
+}
+
+.participant-badge:hover {
+    transform: translateY(-1px);
+}
+
+/* Split Options */
+.split-options {
+    margin: 24px 0;
+}
+
+.split-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.split-btn {
+    padding: 12px 16px;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: var(--transition);
+    flex: 1;
+    text-align: center;
+    font-weight: 600;
+}
+
+.split-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Quick Results */
+.quick-results {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: var(--radius-lg);
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.result-item {
+    background: var(--bg-card);
+    padding: 16px;
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+.result-name {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.result-amount {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* Entries Log */
+.log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.entries-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.entry-item {
+    padding: 16px;
+    margin: 12px 0;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid var(--primary);
+    transition: var(--transition);
+}
+
+.entry-item:hover {
+    transform: translateX(4px);
+}
+
+.entry-details {
+    flex: 1;
+}
+
+.entry-amount {
+    font-weight: 700;
+    color: var(--primary);
+    margin-right: 16px;
+}
+
+.entry-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.delete-btn, .edit-btn {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+}
+
+.delete-btn { 
+    background: var(--danger); 
+    color: white; 
+}
+
+.edit-btn { 
+    background: var(--secondary); 
+    color: white; 
+}
+
+/* Totals Cards */
+.totals-card, .final-totals-card {
+    background: var(--bg-secondary);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    margin: 16px 0;
+}
+
+.totals-card h3, .final-totals-card h3 {
+    margin-bottom: 16px;
+    color: var(--text-primary);
+}
+
+.totals { 
+    background: #e9f7ef; 
+    border-left: 4px solid var(--primary);
+}
+
+.final-totals { 
+    background: #fff3cd; 
+    border-left: 4px solid var(--warning);
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-row button {
+    margin-bottom: 0;
+}
+
+/* Search Bar */
+.search-bar {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+}
+
+.search-bar input {
+    padding-left: 48px;
+}
+
+/* View Mode for Bill Details */
+.view-mode .input-section,
+.view-mode .btn-row,
+.view-mode .action-buttons {
+    display: none;
+}
+
+.view-entry {
+    cursor: default;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .bill-info-bar {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+    
+    .split-buttons {
+        flex-direction: column;
+    }
+    
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+    
+    .entry-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .entry-actions {
+        align-self: flex-end;
+    }
+    
+    .btn-row {
+        flex-direction: column;
+    }
+}
