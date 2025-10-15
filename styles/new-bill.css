@@ -1,0 +1,39 @@
+/* New Bill Specific Styles */
+.form-container {
+    background: var(--bg-card);
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+}
+
+.input-group {
+    margin-bottom: 28px;
+}
+
+.input-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Enhanced Form Elements */
+input, textarea, select {
+    border: 2px solid var(--border-color);
+    transition: var(--transition);
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* Submit Button */
+.btn-primary {
+    margin-top: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 24px;
+    }
+}
