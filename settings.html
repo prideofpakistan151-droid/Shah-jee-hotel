@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Hostel Bill Manager</title>
+    
+    <!-- Enhanced PWA Icons -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-128x128.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-96x96.png">
+    <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192x192.png">
+    <meta name="msapplication-TileImage" content="icons/icon-144x144.png">
+    <meta name="msapplication-TileColor" content="#6366F1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="BillManager">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#6366F1">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/settings.css">
+    <link rel="stylesheet" href="styles/dark-mode.css">
+</head>
+<body class="light-theme">
+    <div class="container">
+        <header class="page-header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <h1>⚙️ Settings</h1>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </header>
+
+        <div class="settings-container">
+            <!-- Appearance -->
+            <div class="settings-section">
+                <h3>🎨 Appearance</h3>
+                <div class="setting-item">
+                    <label for="themeSelect">Theme</label>
+                    <select id="themeSelect" onchange="changeTheme(this.value)">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="auto">Auto (System)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Currency -->
+            <div class="settings-section">
+                <h3>💰 Currency</h3>
+                <div class="setting-item">
+                    <label for="currencySelect">Default Currency</label>
+                    <select id="currencySelect" onchange="changeCurrency(this.value)">
+                        <option value="₹">Indian Rupee (₹)</option>
+                        <option value="$">US Dollar ($)</option>
+                        <option value="€">Euro (€)</option>
+                        <option value="£">British Pound (£)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Participants -->
+            <div class="settings-section">
+                <h3>👥 Roommates</h3>
+                <div id="participantsList" class="participants-container">
+                    <!-- Dynamic participants list -->
+                </div>
+                <button class="btn-secondary" onclick="addParticipant()">
+                    <span>➕</span> Add Participant
+                </button>
+            </div>
+
+            <!-- Data Management -->
+            <div class="settings-section">
+                <h3>💾 Data Management</h3>
+                <div class="setting-actions">
+                    <button class="btn-secondary" onclick="exportData()">
+                        <span>📤</span> Export All Data
+                    </button>
+                    <button class="btn-secondary" onclick="importData()">
+                        <span>📥</span> Import Data
+                    </button>
+                    <button class="btn-danger" onclick="clearAllData()">
+                        <span>🗑️</span> Clear All Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- App Info -->
+            <div class="settings-section">
+                <h3>ℹ️ App Information</h3>
+                <div class="app-info">
+                    <div class="info-item">
+                        <span class="info-label">Version:</span>
+                        <span class="info-value">2.0.0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Last Updated:</span>
+                        <span class="info-value" id="lastUpdated">Loading...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Total Bills:</span>
+                        <span class="info-value" id="totalBillsCount">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="settings-section">
+                <h3>⚡ Quick Actions</h3>
+                <div class="quick-actions">
+                    <button class="btn-primary" onclick="navigateTo('calculator.html')">
+                        <span>🧮</span> Quick Calculator
+                    </button>
+                    <button class="btn-primary" onclick="navigateTo('analytics.html')">
+                        <span>📈</span> View Analytics
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleFileImport(this.files[0])">
+
+    <script src="js/app.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/theme.js"></script>
+</body>
+</html>
